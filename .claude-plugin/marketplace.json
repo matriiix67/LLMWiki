@@ -1,0 +1,21 @@
+{
+  "name": "brainforge",
+  "owner": {
+    "name": "bournechen",
+    "email": "bournechen@tencent.com"
+  },
+  "metadata": {
+    "description": "LLM-powered persistent knowledge wiki",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "brainforge",
+      "source": "./",
+      "description": "LLM-powered persistent knowledge wiki — compile research materials into structured, interlinked Markdown pages.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "keywords": ["knowledge-base", "wiki", "research", "ingest", "knowledge-management"]
+    }
+  ]
+}
