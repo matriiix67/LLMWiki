@@ -4,7 +4,7 @@
 
 # BrainForge
 
-A Claude Code skill that lets an LLM incrementally build and maintain a persistent knowledge wiki from your collected materials.
+A Claude Code plugin that lets an LLM incrementally build and maintain a persistent knowledge wiki from your collected materials.
 
 ## What It Does
 
@@ -20,21 +20,22 @@ schema.md     Schema config (co-evolved by user and LLM)
 
 ## Commands
 
-| Command | Trigger | What It Does |
-|---------|---------|--------------|
-| **Init** | `init kb` | Scaffold the directory structure and config files |
-| **Ingest** | `ingest` | Read a source file, discuss with user, write wiki pages |
-| **Batch Ingest** | `batch ingest` | Auto-process all uncompiled files in `raw/` |
-| **Query** | `query` or ask directly | Search the wiki, synthesize an answer with citations |
-| **Archive** | `archive` | Feed valuable query outputs back into the wiki |
-| **Lint** | `lint` | 9-dimension health check with auto-fix suggestions |
-| **Status** | `status` | Dashboard showing KB statistics |
+Each command is a sub-command invoked via `/brainforge:<command>`:
+
+| Command | Invocation | What It Does |
+|---------|------------|--------------|
+| **Init** | `/brainforge:init` | Scaffold the directory structure and config files |
+| **Ingest** | `/brainforge:ingest` | Read a source file, discuss with user, write wiki pages |
+| **Query** | `/brainforge:query` | Search the wiki, synthesize an answer with citations |
+| **Archive** | `/brainforge:archive` | Feed valuable query outputs back into the wiki |
+| **Lint** | `/brainforge:lint` | 9-dimension health check with auto-fix suggestions |
+| **Status** | `/brainforge:status` | Dashboard showing KB statistics |
 
 ## Quick Start
 
 1. **Initialize** a knowledge base:
    ```
-   > init kb
+   /brainforge:init
    ```
    This creates the directory structure and asks you to define the domain.
 
@@ -42,24 +43,24 @@ schema.md     Schema config (co-evolved by user and LLM)
 
 3. **Ingest** a file:
    ```
-   > ingest raw/my-paper.pdf
+   /brainforge:ingest raw/my-paper.pdf
    ```
-   The LLM reads the material, discusses key points with you, then creates/updates wiki pages (concepts, entities, source summaries, analyses).
+   The LLM reads the material, discusses key points with you, then creates/updates wiki pages (concepts, entities, source summaries, analyses). Use `/brainforge:ingest batch` to auto-process all uncompiled files.
 
 4. **Query** the knowledge base:
    ```
-   > What are the main differences between LoRA and QLoRA?
+   /brainforge:query What are the main differences between LoRA and QLoRA?
    ```
    Answers cite specific wiki pages via `[[wikilinks]]`.
 
 5. **Archive** a good answer back into the wiki:
    ```
-   > archive
+   /brainforge:archive
    ```
 
 6. **Check** wiki health:
    ```
-   > lint
+   /brainforge:lint
    ```
    Reports contradictions, broken links, orphan pages, missing concepts, and suggests new research directions.
 
@@ -83,24 +84,42 @@ schema.md     Schema config (co-evolved by user and LLM)
 
 ## Installation
 
-The skill is installed at:
+### As a Claude Code Plugin
+
+The plugin is registered as a marketplace in Claude Code:
+
 ```
-~/.agents/skills/brainforge/
-~/.claude/skills/brainforge -> symlink
+~/.claude/plugins/marketplaces/brainforge -> ~/.agents/skills/brainforge
 ```
 
-It activates automatically when you use trigger words like `init kb`, `ingest`, `query`, `lint`, `status`, etc.
+Enable in `~/.claude/settings.json`:
+```json
+{
+  "enabledPlugins": {
+    "brainforge@brainforge": true
+  }
+}
+```
 
 ## File Structure
 
 ```
 brainforge/
-├── SKILL.md                      # Core workflow + command quick-reference
+├── .claude-plugin/
+│   └── plugin.json               # Plugin manifest
+├── skills/
+│   ├── init/SKILL.md             # /brainforge:init
+│   ├── ingest/SKILL.md           # /brainforge:ingest
+│   ├── query/SKILL.md            # /brainforge:query
+│   ├── archive/SKILL.md          # /brainforge:archive
+│   ├── lint/SKILL.md             # /brainforge:lint
+│   └── status/SKILL.md           # /brainforge:status
+├── references/
+│   ├── architecture.md           # Shared architecture & design principles
+│   ├── templates.md              # Templates for index.md, log.md, state.json
+│   └── schema-template.md        # Template for schema.md
 ├── README.md                     # This file
-└── references/
-    ├── commands.md               # Detailed specs for all 6 commands
-    ├── templates.md              # Templates for index.md, log.md, state.json
-    └── schema-template.md        # Template for schema.md
+└── README.zh-CN.md               # Chinese README
 ```
 
 ## Requirements

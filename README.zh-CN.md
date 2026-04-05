@@ -4,7 +4,7 @@
 
 # BrainForge
 
-一个 Claude Code 技能，让 LLM 从你收集的资料中渐进地构建和维护一个持久化知识 Wiki。
+一个 Claude Code 插件，让 LLM 从你收集的资料中渐进地构建和维护一个持久化知识 Wiki。
 
 ## 它做什么
 
@@ -20,21 +20,22 @@ schema.md     模式配置（用户和 LLM 共同演进）
 
 ## 命令一览
 
-| 命令 | 触发词 | 说明 |
-|------|--------|------|
-| **初始化** | `初始化知识库` / `init kb` | 创建目录结构和配置文件 |
-| **摄入** | `摄入` / `ingest` / `处理这个文件` | 阅读原始资料 → 讨论 → 写入 wiki |
-| **批量摄入** | `批量摄入` / `batch ingest` | 自动处理 `raw/` 中所有未编译文件 |
-| **查询** | `查询` / `query` / 直接提问 | 检索 wiki → 综合回答并标注引用 |
-| **回填** | `回填` / `归档` / `archive` | 将有价值的查询输出整合回 wiki |
-| **检查** | `检查` / `lint` / `体检` | 9 维度健康检查 + 自动修复建议 |
-| **状态** | `状态` / `status` | 知识库统计仪表盘 |
+每个命令都是子命令，通过 `/brainforge:<命令>` 调用：
+
+| 命令 | 调用方式 | 说明 |
+|------|----------|------|
+| **初始化** | `/brainforge:init` | 创建目录结构和配置文件 |
+| **摄入** | `/brainforge:ingest` | 阅读原始资料 → 讨论 → 写入 wiki |
+| **查询** | `/brainforge:query` | 检索 wiki → 综合回答并标注引用 |
+| **回填** | `/brainforge:archive` | 将有价值的查询输出整合回 wiki |
+| **检查** | `/brainforge:lint` | 9 维度健康检查 + 自动修复建议 |
+| **状态** | `/brainforge:status` | 知识库统计仪表盘 |
 
 ## 快速上手
 
 1. **初始化**知识库：
    ```
-   > 初始化知识库
+   /brainforge:init
    ```
    创建目录结构，询问你定义领域。
 
@@ -42,24 +43,24 @@ schema.md     模式配置（用户和 LLM 共同演进）
 
 3. **摄入**一个文件：
    ```
-   > 摄入 raw/my-paper.pdf
+   /brainforge:ingest raw/my-paper.pdf
    ```
-   LLM 阅读资料，与你讨论关键要点，然后创建/更新 wiki 页面（概念、实体、来源摘要、分析）。
+   LLM 阅读资料，与你讨论关键要点，然后创建/更新 wiki 页面。使用 `/brainforge:ingest batch` 批量处理所有未编译文件。
 
 4. **查询**知识库：
    ```
-   > LoRA 和 QLoRA 的主要区别是什么？
+   /brainforge:query LoRA 和 QLoRA 的主要区别是什么？
    ```
    回答会通过 `[[wikilink]]` 引用具体 wiki 页面。
 
 5. **回填**好的回答到 wiki：
    ```
-   > 回填
+   /brainforge:archive
    ```
 
 6. **检查** wiki 健康状况：
    ```
-   > 体检
+   /brainforge:lint
    ```
    报告矛盾、断链、孤岛页面、缺失概念，并建议新的研究方向。
 
@@ -81,26 +82,44 @@ schema.md     模式配置（用户和 LLM 共同演进）
 - **原始资料不可变** — LLM 永远不修改 `raw/` 中的源文件。
 - **链接成网** — 每个页面使用 `[[wikilink]]` 双向导航，兼容 Obsidian。
 
-## 安装位置
+## 安装
+
+### 作为 Claude Code 插件
+
+插件注册为 Claude Code 的 marketplace：
 
 ```
-~/.agents/skills/brainforge/
-~/.claude/skills/brainforge -> symlink
+~/.claude/plugins/marketplaces/brainforge -> ~/.agents/skills/brainforge
 ```
 
-使用触发词（如 `初始化知识库`、`摄入`、`查询`、`体检`、`状态`等）时自动激活。
+在 `~/.claude/settings.json` 中启用：
+```json
+{
+  "enabledPlugins": {
+    "brainforge@brainforge": true
+  }
+}
+```
 
 ## 文件结构
 
 ```
 brainforge/
-├── SKILL.md                      # 核心工作流 + 命令速查
+├── .claude-plugin/
+│   └── plugin.json               # 插件清单
+├── skills/
+│   ├── init/SKILL.md             # /brainforge:init
+│   ├── ingest/SKILL.md           # /brainforge:ingest
+│   ├── query/SKILL.md            # /brainforge:query
+│   ├── archive/SKILL.md          # /brainforge:archive
+│   ├── lint/SKILL.md             # /brainforge:lint
+│   └── status/SKILL.md           # /brainforge:status
+├── references/
+│   ├── architecture.md           # 共享架构与设计原则
+│   ├── templates.md              # index.md, log.md, state.json 模板
+│   └── schema-template.md        # schema.md 模板
 ├── README.md                     # English README
-├── README.zh-CN.md               # 本文件
-└── references/
-    ├── commands.md               # 6 个命令的详细规格
-    ├── templates.md              # index.md, log.md, state.json 模板
-    └── schema-template.md        # schema.md 模板
+└── README.zh-CN.md               # 本文件
 ```
 
 ## 依赖

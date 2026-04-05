@@ -1,0 +1,14 @@
+{
+  "name": "brainforge",
+  "description": "LLM-powered persistent knowledge wiki — compile research materials into structured, interlinked Markdown pages. Init, ingest, query, archive, lint, and check status.",
+  "version": "1.0.0",
+  "author": {
+    "name": "bournechen",
+    "email": "bournechen@tencent.com"
+  },
+  "homepage": "https://github.com/matriiix67/LLMWiki",
+  "repository": "https://github.com/matriiix67/LLMWiki",
+  "license": "MIT",
+  "keywords": ["knowledge-base", "wiki", "research", "ingest", "knowledge-management"],
+  "skills": "./skills/"
+}
