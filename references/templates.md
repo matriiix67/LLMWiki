@@ -1,8 +1,10 @@
-# BrainForge 模板
+# BrainForge Templates
 
-> 初始化知识库时使用这些模板生成初始文件。
+> Used during init to generate initial files. Pick the section matching the user's chosen language.
 
-## index.md 模板
+---
+
+## index.md — zh
 
 ```markdown
 # 知识库索引
@@ -38,28 +40,78 @@
 |------|------|------|----------|
 ```
 
-## log.md 模板
+## index.md — en
 
-每条记录格式 `## [{date}] {action} | {title}`，支持 grep/tail。
+```markdown
+# Knowledge Base Index
+
+> Auto-maintained. Last updated: {timestamp}
+
+## Statistics
+
+- Source documents: 0 | Wiki pages: 0 | Concepts: 0 | Entities: 0 | Links: 0
+
+## Topics
+
+(none yet)
+
+## Concepts
+
+| Name | File | Summary | Related |
+|------|------|---------|---------|
+
+## Entities
+
+| Name | Type | File | Summary |
+|------|------|------|---------|
+
+## Sources
+
+| Raw Document | Summary Page | Concepts | Ingested |
+|--------------|--------------|----------|----------|
+
+## Analyses
+
+| Title | File | Type | Topics |
+|-------|------|------|--------|
+```
+
+---
+
+## log.md — zh
 
 ```markdown
 # 操作日志
 
 ## [{date}] init | 知识库初始化
 领域：{domain}
+语言：{language}
 ```
 
-## state.json 模板
+## log.md — en
+
+```markdown
+# Operation Log
+
+## [{date}] init | Knowledge base initialized
+Domain: {domain}
+Language: {language}
+```
+
+---
+
+## state.json (language-independent)
 
 ```json
 {
   "version": 1,
   "created": "{ISO timestamp}",
+  "language": "{language code: zh/en/ja/...}",
   "files": {}
 }
 ```
 
-`files` 对象记录每个已处理的原始文件：
+`files` records each processed raw file:
 
 ```json
 {

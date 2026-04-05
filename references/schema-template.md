@@ -1,6 +1,11 @@
-# Schema 模板
+# Schema Template
 
-> 初始化时生成此文件为 `schema.md`，放在知识库根目录。用户和 LLM 在使用中共同迭代。
+> Generated as `schema.md` during init. Pick the section matching the user's chosen language.
+> User and LLM co-evolve this file over time.
+
+---
+
+## schema.md — zh
 
 ```markdown
 # Wiki Schema
@@ -10,7 +15,7 @@
 
 ## 领域
 
-{用户填写：如"AI 技术研究"、"A 股短线交易"等}
+{domain}
 
 ## 语言约定
 
@@ -58,3 +63,70 @@
 {- 对于新闻类资料，标注时效性}
 {- 对于代码类资料，重点提取架构设计和关键 API}
 ```
+
+---
+
+## schema.md — en
+
+```markdown
+# Wiki Schema
+
+> This file defines the structure conventions and workflow rules for the knowledge base.
+> Co-maintained by user and LLM, refined over time.
+
+## Domain
+
+{domain}
+
+## Language Conventions
+
+- All wiki pages are written in English
+- Keep well-known abbreviations and proper nouns as-is (e.g. Transformer, RAG, LoRA)
+- Define acronyms on first use: Full Name (ABBR)
+
+## Page Types & Conventions
+
+### Entity Pages (entities/)
+For: people, projects, products, companies, tools
+Contains: one-line summary, key attributes, detailed description, relationship links
+
+### Concept Pages (concepts/)
+For: technical concepts, theories, methodologies, terms
+Contains: clear definition, mechanism/principles, use cases, relationships and distinctions with related concepts
+
+### Source Summaries (sources/)
+For: structured summary of each raw document
+Contains: source info, key points (200-500 words), main arguments (with confidence), related concepts and entities
+
+### Analysis Pages (analyses/)
+For: comparative, synthesis, trend, and contradiction analyses
+Contains: analysis goal, involved sources, analysis content, conclusions and open questions
+
+### Topic Pages (topics/)
+For: high-level overview of a research area, serving as an "entry page"
+Contains: topic overview, core concept list, key entities, synthesized narrative, open research questions
+
+## Link Conventions
+
+- Use [[Page Name]] wikilink format
+- Every page should have inbound and outbound links
+- Create stubs for new concepts mentioned but not yet documented
+
+## Ingest Workflow Preference
+
+- Default: interactive — LLM discusses with user before writing
+- Optional: batch mode — less interaction
+
+## Domain-Specific Rules
+
+{Accumulated over time, e.g.:}
+{- For academic papers, focus on methodology and experimental results}
+{- For news articles, mark timeliness}
+{- For code repositories, focus on architecture and key APIs}
+```
+
+---
+
+## Other Languages
+
+For languages not listed above (e.g. 日本語, Deutsch, Español), use the English template as a base and translate all headings, labels, and placeholder text into the target language. Keep the same structure.

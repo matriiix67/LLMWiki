@@ -6,14 +6,17 @@ argument-hint: "[path]"
 
 # BrainForge Init
 
-初始化一个新的 BrainForge 知识库。
+Initialize a new BrainForge knowledge base.
 
-**共享架构参考**：[../../references/architecture.md](../../references/architecture.md)
+**Shared architecture**: [../../references/architecture.md](../../references/architecture.md)
 
-## 执行步骤
+## Steps
 
-1. 确定知识库路径（用户指定或当前目录）
-2. 创建完整目录结构：
+1. Determine KB path (user-specified or current directory)
+2. **Ask user two questions via AskUserQuestion** (in a single call):
+   - **Domain**: What is this knowledge base about? (e.g. "AI research", "A股短线交易")
+   - **Language**: Which language for wiki pages? Options: `简体中文 (Recommended)`, `English`, `日本語`, or user-specified
+3. Create directory structure:
    ```
    {kb-path}/
    ├── raw/
@@ -29,14 +32,13 @@ argument-hint: "[path]"
    │   └── archived/
    └── .brainforge/
    ```
-3. 生成 `wiki/index.md`（读取 [../../references/templates.md](../../references/templates.md) 中的模板）
-4. 生成 `wiki/log.md`（写入初始化记录）
-5. 生成 `schema.md`（读取 [../../references/schema-template.md](../../references/schema-template.md)，用 AskUserQuestion 询问用户填写领域）
-6. 生成 `.brainforge/state.json`
-7. 提示用户将原始资料放入 `raw/`
+4. Generate `wiki/index.md` — use the matching language section from [../../references/templates.md](../../references/templates.md)
+5. Generate `wiki/log.md` — write init record in the chosen language
+6. Generate `schema.md` — use the matching language section from [../../references/schema-template.md](../../references/schema-template.md), fill in domain and language
+7. Generate `.brainforge/state.json`
+8. Show completion message in the user's language:
 
-## 初始化后提示
-
+**zh:**
 ```
 知识库已初始化完成！
 
@@ -44,4 +46,14 @@ argument-hint: "[path]"
 1. 将原始资料放入 raw/ 目录
 2. 使用 /brainforge:ingest 摄入资料
 3. 使用 /brainforge:status 查看状态
+```
+
+**en:**
+```
+Knowledge base initialized!
+
+Next steps:
+1. Add source materials to raw/
+2. Use /brainforge:ingest to process them
+3. Use /brainforge:status to check stats
 ```
