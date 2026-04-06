@@ -1,5 +1,4 @@
 ---
-name: ingest
 description: "Use when user wants to process raw materials into the knowledge wiki. Triggers: '摄入', 'ingest', '处理这个文件', '读一下这篇', '批量摄入', 'batch ingest', '处理 raw 目录'."
 argument-hint: "[file path or 'batch']"
 ---

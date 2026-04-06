@@ -1,5 +1,4 @@
 ---
-name: lint
 description: "Use when user wants to check knowledge base health and find issues. Triggers: '检查', 'lint', '体检', 'health check', '知识库检查'."
 ---
 

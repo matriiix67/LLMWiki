@@ -1,5 +1,4 @@
 ---
-name: archive
 description: "Use when user wants to feed query outputs or analysis results back into the wiki. Triggers: '回填', '归档', 'archive', '把这个查询写回 wiki'."
 argument-hint: "[output file path]"
 ---

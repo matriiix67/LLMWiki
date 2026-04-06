@@ -1,5 +1,4 @@
 ---
-name: status
 description: "Use when user wants to see knowledge base statistics and recent activity. Triggers: '状态', 'status', '知识库状态', 'kb status'."
 ---
 

@@ -1,5 +1,4 @@
 ---
-name: query
 description: "Use when user wants to search and ask questions against the knowledge wiki. Triggers: '查询', 'query', '问', or any direct question about knowledge base content."
 argument-hint: "[question]"
 ---

@@ -1,5 +1,4 @@
 ---
-name: init
 description: "Use when user wants to create a new knowledge base. Triggers: '初始化知识库', 'init kb', 'create knowledge base', '新建知识库'."
 argument-hint: "[path]"
 ---
